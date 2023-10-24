@@ -10,8 +10,10 @@ public:
 
     void printGrid() const;
 
-    ~Grid();
+    void movement(int dir);
 
+    ~Grid();
+    
 private:
 
     int gridSize;

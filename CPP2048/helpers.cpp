@@ -5,5 +5,5 @@ int powerOf2( int n ) {
 	for (int i = 0; i < n; i++) {
 		a = a * 2;
 	}
-	return n;
+	return a;
 }

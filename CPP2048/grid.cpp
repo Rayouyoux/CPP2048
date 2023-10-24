@@ -45,3 +45,22 @@ void Grid::printGrid() const {
         std::cout << std::endl;
     }
 }
+
+void Grid::movement(int dir) {
+    int savedValue;
+    if (dir == 0) { // UP
+        for (int i = 0; i < 4; i++) {
+            savedValue = gridArray[0][i].getValue();
+            
+        }
+    }
+    else if (dir == 1) { // RIGHT
+
+    }
+    else if (dir == 2) { // DOWN
+
+    }
+    else if (dir == 3) { // LEFT
+
+    }
+}
