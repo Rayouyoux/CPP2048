@@ -53,8 +53,11 @@ void Grid::movement(int dir) {
             for (int j = 1; j < 4; j++) {
                 k = 1;
                 if (gridArray[j][i].getValue() != 0) {
-                    while (gridArray[j - k][i].getValue() == 0 && j - k >= 0) {
+                    while (gridArray[j - k][i].getValue() == 0) {
                         k += 1;
+                        if (j - k >= 0) {
+                            break;
+                        }
                     }
                     gridArray[j - k + 1][i].setValue(gridArray[j][i].getValue());
                     gridArray[j][i].setValue(0);
@@ -68,8 +71,11 @@ void Grid::movement(int dir) {
             for (int j = 1; j < 4; j++) {
                 k = 1;
                 if (gridArray[j][i].getValue() != 0) {
-                    while (gridArray[j - k][i].getValue() == 0 && j - k >= 0) {
+                    while (gridArray[j - k][i].getValue() == 0) {
                         k += 1;
+                        if (j - k >= 0) {
+                            break;
+                        }
                     }
                     gridArray[j - k + 1][i].setValue(gridArray[j][i].getValue());
                     gridArray[j][i].setValue(0);
@@ -85,8 +91,11 @@ void Grid::movement(int dir) {
             for (int j = 2; j > -1; j--) {
                 k = 1;
                 if (gridArray[j][i].getValue() != 0) {
-                    while (gridArray[j + k][i].getValue() == 0 && j + k <= 3) {
+                    while (gridArray[j + k][i].getValue() == 0) {
                         k += 1;
+                        if (j + k <= 3) {
+                            break;
+                        }
                     }
                     gridArray[j + k - 1][i].setValue(gridArray[j][i].getValue());
                     gridArray[j][i].setValue(0);
@@ -100,8 +109,11 @@ void Grid::movement(int dir) {
             for (int j = 2; j > -1; j--) {
                 k = 1;
                 if (gridArray[j][i].getValue() != 0) {
-                    while (gridArray[j + k][i].getValue() == 0 && j + k <= 3) {
+                    while (gridArray[j + k][i].getValue() == 0) {
                         k += 1;
+                        if (j + k <= 3) {
+                            break;
+                        }
                     }
                     gridArray[j + k - 1][i].setValue(gridArray[j][i].getValue());
                     gridArray[j][i].setValue(0);
