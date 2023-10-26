@@ -1,3 +1,5 @@
+#include <vector>
+#include <random>
 #include "cell.h"
 
 class Grid {
@@ -6,13 +8,13 @@ public:
 
     Grid(int size);
 
-    void initializeGrid();
+    void initializeGrid(std::mt19937& rng);
 
     void printGrid() const;
 
     void movement(int dir);
 
-    void newNumber();
+    void newNumber(std::mt19937& rng);
 
     int checkWin();
 
