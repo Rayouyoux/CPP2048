@@ -143,3 +143,32 @@ void Grid::newNumber() {
 
     std::uniform_int_distribution<int> distribution(0, gridSize - 1);
 }
+
+int Grid::checkWin() {
+    for (int i = 0; i < gridSize; i++) {
+        for (int j = 0; j < gridSize; j++) {
+            if (gridArray[i][j].getValue() == 2048) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int Grid::checkLose() {
+    for (int i = 0; i < gridSize; i++) {
+        for (int j = 1; j < gridSize; j++) {
+            if (gridArray[i][j].getValue() == gridArray[i][j-1].getValue()) {
+                return 0;
+            }
+        }
+    }
+    for (int i = 0; i < gridSize; i++) {
+        for (int j = 1; j < gridSize; j++) {
+            if (gridArray[j][i].getValue() == gridArray[j - 1][i].getValue()) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}

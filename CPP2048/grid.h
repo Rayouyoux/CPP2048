@@ -14,6 +14,10 @@ public:
 
     void newNumber();
 
+    int checkWin();
+
+    int checkLose();
+
     ~Grid();
     
 private:
