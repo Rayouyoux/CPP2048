@@ -1,1 +1,6 @@
-#pragma once
+namespace Input {
+
+    int keyPressed();
+
+    bool quit();
+};

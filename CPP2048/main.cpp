@@ -1,5 +1,6 @@
 #include <iostream>
 #include "grid.h"
+#include "input.h"
 
 int main() {
 
