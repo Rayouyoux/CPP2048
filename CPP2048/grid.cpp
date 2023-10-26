@@ -22,9 +22,11 @@ void Grid::initializeGrid() {
     std::mt19937 gen(rd());
 
     std::uniform_int_distribution<int> distribution(0, gridSize - 1);
+    std::uniform_int_distribution<int> isFour(0, 9);
 
     int row1 = distribution(gen);
     int col1 = distribution(gen);
+    int place4 = isFour(gen);
 
     int row2, col2;
     do {
@@ -32,7 +34,7 @@ void Grid::initializeGrid() {
         col2 = distribution(gen);
     } while (row1 == row2 && col1 == col2);
 
-    gridArray[row1][col1].setValue(2);
+    place4 == 9 ? gridArray[row1][col1].setValue(4) : gridArray[row1][col1].setValue(2);
     gridArray[row2][col2].setValue(2);
 }
 
@@ -43,85 +45,101 @@ void Grid::printGrid() const {
             std::cout << cellValue << "\t";
         }
         std::cout << std::endl;
+        std::cout << std::endl;
     }
 }
 
 void Grid::movement(int dir) {
     int k;
-    if (dir == 0) { // UP
-        for (int i = 0; i < 4; i++) {
-            for (int j = 1; j < 4; j++) {
-                k = 1;
+    int m;
+    if (dir == 0 || dir == 1) { // UP && DOWN
+        for (int i = 0; i < gridSize; i++) {
+            m = 0;
+            for (int j = 1; j < gridSize; j++) {
+                dir == 0 ? k = 1 : k = 2 * j - (gridSize - 1);
                 if (gridArray[j][i].getValue() != 0) {
                     while (gridArray[j - k][i].getValue() == 0) {
-                        k += 1;
-                        if (j - k >= 0) {
+                        dir == 0 ? k += 1 : k-= 1;
+                        if (j - k < 0 || j - k >= gridSize) {
                             break;
                         }
                     }
                     gridArray[j - k + 1][i].setValue(gridArray[j][i].getValue());
                     gridArray[j][i].setValue(0);
-                }
-            }
-            for (int j = 1; j < 4; j++) {
-                if (gridArray[j - 1][i].getValue() == gridArray[j][i].getValue() != 0) {
-                    gridArray[j - 1][i].setValue(gridArray[j - 1][i].getValue() * 2);
-                }
-            }
-            for (int j = 1; j < 4; j++) {
-                k = 1;
-                if (gridArray[j][i].getValue() != 0) {
-                    while (gridArray[j - k][i].getValue() == 0) {
-                        k += 1;
-                        if (j - k >= 0) {
-                            break;
-                        }
+                    if (gridArray[j + 1][i].getValue() == gridArray[j][i].getValue() && gridArray[j][i].getValue() != 0 && j != m) {
+                        gridArray[j + 1][i].setValue(gridArray[j + 1][i].getValue() * 2);
+                        m = j + 1;
                     }
-                    gridArray[j - k + 1][i].setValue(gridArray[j][i].getValue());
-                    gridArray[j][i].setValue(0);
                 }
             }
         }
     }
-    else if (dir == 1) { // RIGHT
-
-    }
-    else if (dir == 2) { // DOWN
-        for (int i = 0; i < 4; i++) {
-            for (int j = 2; j > -1; j--) {
-                k = 1;
-                if (gridArray[j][i].getValue() != 0) {
-                    while (gridArray[j + k][i].getValue() == 0) {
-                        k += 1;
-                        if (j + k <= 3) {
+    else if (dir == 2 || dir == 3) { // LEFT && RIGHT
+        for (int i = 0; i < gridSize; i++) {
+            m = 0;
+            for (int j = 1; j < gridSize; j++) {
+                dir == 2 ? k = 1 : k = 2 * j - (gridSize - 1);
+                if (gridArray[i][j].getValue() != 0) {
+                    while (gridArray[i][j - k].getValue() == 0) {
+                        dir == 2 ? k += 1 : k -= 1;
+                        if (j - k < 0 || j - k >= gridSize) {
                             break;
                         }
                     }
-                    gridArray[j + k - 1][i].setValue(gridArray[j][i].getValue());
-                    gridArray[j][i].setValue(0);
-                }
-            }
-            for (int j = 2; j > -1; j--) {
-                if (gridArray[j + 1][i].getValue() == gridArray[j][i].getValue() != 0) {
-                    gridArray[j + 1][i].setValue(gridArray[j + 1][i].getValue() * 2);
-                }
-            }
-            for (int j = 2; j > -1; j--) {
-                k = 1;
-                if (gridArray[j][i].getValue() != 0) {
-                    while (gridArray[j + k][i].getValue() == 0) {
-                        k += 1;
-                        if (j + k <= 3) {
-                            break;
-                        }
+                    gridArray[i][j - k +1].setValue(gridArray[i][j].getValue());
+                    gridArray[i][j].setValue(0);
+                    if (gridArray[i][j + 1].getValue() == gridArray[i][j].getValue() && gridArray[i][j].getValue() != 0 && j != m) {
+                        gridArray[i][j + 1].setValue(gridArray[i][j + 1].getValue() * 2);
+                        m = j + 1;
                     }
-                    gridArray[j + k - 1][i].setValue(gridArray[j][i].getValue());
-                    gridArray[j][i].setValue(0);
                 }
             }
         }
     }
-    else if (dir == 3) { // LEFT
+    /*
+        else if (dir == 3) { // LEFT
+            for (int i = 0; i < gridSize; i++) {
+                for (int j = 1; j < gridSize; j++) {
+                    k = 1;
+                    if (gridArray[i][j].getValue() != 0) {
+                        while (gridArray[i][j - k].getValue() == 0) {
+                            k += 1;
+                            if (j - k < 0) {
+                                break;
+                            }
+                        }
+                        gridArray[i][j - k + 1].setValue(gridArray[i][j].getValue());
+                        gridArray[i][j].setValue(0);
+                    }
+                }
+                for (int j = 1; j < gridSize; j++) {
+                    if (gridArray[i][j - 1].getValue() == gridArray[i][j].getValue() != 0) {
+                        gridArray[i][j - 1].setValue(gridArray[i - 1][j].getValue() * 2);
+                    }
+                }
+                for (int j = 1; j < gridSize; j++) {
+                    k = 1;
+                    if (gridArray[i][j].getValue() != 0) {
+                        while (gridArray[i][j - k].getValue() == 0) {
+                            k += 1;
+                            if (j - k < 0) {
+                                break;
+                            }
+                        }
+                        gridArray[i][j - k + 1].setValue(gridArray[i][j].getValue());
+                        gridArray[i][j].setValue(0);
+                    }
+                }
+            }
+        }
+    */
+}
 
-    }
+void Grid::newNumber() {
+
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<int> distribution(0, gridSize - 1);
 }

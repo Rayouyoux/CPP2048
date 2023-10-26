@@ -12,6 +12,8 @@ public:
 
     void movement(int dir);
 
+    void newNumber();
+
     ~Grid();
     
 private:
