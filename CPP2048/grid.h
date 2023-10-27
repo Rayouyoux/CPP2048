@@ -12,7 +12,7 @@ public:
 
     void printGrid() const;
 
-    void movement(int dir);
+    int movement(int dir);
 
     void newNumber(std::mt19937& rng);
 
@@ -23,6 +23,10 @@ public:
     ~Grid();
     
 private:
+
+    int verticalMovement(int dir);
+
+    int horizontalMovement(int dir);
 
     int gridSize;
     Cell** gridArray;

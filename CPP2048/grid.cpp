@@ -5,6 +5,12 @@
 #include <random>
 #include <ctime>
 
+
+/*
+PUBLIC METHODS
+*/
+
+// Constructor
 Grid::Grid(int size) : gridSize(size) {
     gridArray = new Cell * [size];
     for (int i = 0; i < size; i++) {
@@ -12,6 +18,7 @@ Grid::Grid(int size) : gridSize(size) {
     }
 }
 
+// Destructor
 Grid::~Grid() {
     for (int i = 0; i < gridSize; i++) {
         delete[] gridArray[i];
@@ -19,141 +26,30 @@ Grid::~Grid() {
     delete[] gridArray;
 }
 
+// Initializes a game grid
 void Grid::initializeGrid(std::mt19937& rng) {
     newNumber(rng);
     newNumber(rng);
 }
 
+// Prints a game grid
 void Grid::printGrid() const {
-    for (int row = 0; row < gridSize; row++) {
-        for (int col = 0; col < gridSize; col++) {
-            int cellValue = gridArray[row][col].getValue();
-            std::cout << cellValue << "\t";
+    for (int i = 0; i < gridSize; i++) {
+        for (int j = 0; j < gridSize; j++) {
+            int cellValue = gridArray[i][j].getValue();
+            std::cout << " | " << cellValue << "\t";
         }
-        std::cout << std::endl;
+        std::cout << " | " << std::endl;
         std::cout << std::endl;
     }
 }
 
-void Grid::movement(int dir) {
-    int k;
-    int m;
-    if (dir == 0 || dir == 1) {
-        for (int i = 0; i < gridSize; i++) {
-            m = 0;
-            for (int j = 1; j < gridSize; j++) {
-                k = 1;
-                if (gridArray[j][i].getValue() != 0) {
-                    while (gridArray[j - k][i].getValue() == 0) {
-                        gridArray[j - k][i].setValue(gridArray[j - k + 1][i].getValue());
-                        gridArray[j - k + 1][i].setValue(0);
-                        k += 1;
-                        if (j - k < 0 || j - k >= gridSize) {
-                            break;
-                        }
-                    }
-                    if (j - k >= 0 && j - k < gridSize) {
-                        if (gridArray[j - k][i].getValue() == gridArray[j - k + 1][i].getValue()) {
-                            gridArray[j - k][i].setValue((gridArray[j - k][i].getValue()) * 2);
-                            gridArray[j - k + 1][i].setValue(0);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    /*
-    if (dir == 0 || dir == 1) { // UP && DOWN
-        for (int i = 0; i < gridSize; i++) {
-            m = 0;
-            for (int j = 1; j < gridSize; j++) {
-                k = dir == 0 ? 1 : 2 * j - (gridSize - 1);
-                std::cout << "dir : " << dir << std::endl;
-                std::cout << "i : " << i << std::endl;
-                std::cout << "j : " << j << std::endl;
-                std::cout << "j-k : " << j-k << std::endl;
-                std::cout << "-----" << std::endl;
-                if (gridArray[j][i].getValue() != 0) {
-                    while (gridArray[j - k][i].getValue() == 0) {
-                        k = dir == 0 ? k + 1 : k - 1;
-                        if (j - k < 0 || j - k >= gridSize) {
-                            break;
-                        }
-                    }
-                    std::cout<< "j-k+1" << j - k + 1 << std::endl;
-                    std::cout << "j-k-1" << j - k - 1 << std::endl;
-                    gridArray[dir == 0 ? j - k + 1 : j - k - 1][i].setValue(gridArray[j][i].getValue());
-                    gridArray[j][i].setValue(0);
-                    if ((gridArray[dir == 0 ? j - 1 : gridSize - j][i].getValue() == gridArray[j][i].getValue()) && (gridArray[j][i].getValue() != 0) && (j != m)) {
-                        gridArray[dir == 0 ? j - 1 : gridSize - j][i].setValue(gridArray[dir == 0 ? j - 1 : gridSize - j][i].getValue() * 2);
-                        m = j + 1;
-                    }
-                }
-            }
-        }
-    }
-    else if (dir == 2 || dir == 3) { // LEFT && RIGHT
-        for (int i = 0; i < gridSize; i++) {
-            m = 0;
-            for (int j = 1; j < gridSize; j++) {
-                k = dir == 2 ? 1 : 2 * j - (gridSize - 1);
-                if (gridArray[i][j].getValue() != 0) {
-                    while (gridArray[i][j - k].getValue() == 0) {
-                        k = dir == 2 ? k + 1 : k - 1;
-                        if (j - k < 0 || j - k >= gridSize) {
-                            break;
-                        }
-                    }
-                    gridArray[i][j - k +1].setValue(gridArray[i][j].getValue());
-                    gridArray[i][j].setValue(0);
-                    if ((gridArray[i][j + 1].getValue() == gridArray[i][j].getValue()) && (gridArray[i][j].getValue() != 0) && (j != m)) {
-                        gridArray[i][j + 1].setValue(gridArray[i][j + 1].getValue() * 2);
-                        m = j + 1;
-                    }
-                }
-            }
-        }
-    }
-    */
-    /*
-        else if (dir == 3) { // LEFT
-            for (int i = 0; i < gridSize; i++) {
-                for (int j = 1; j < gridSize; j++) {
-                    k = 1;
-                    if (gridArray[i][j].getValue() != 0) {
-                        while (gridArray[i][j - k].getValue() == 0) {
-                            k += 1;
-                            if (j - k < 0) {
-                                break;
-                            }
-                        }
-                        gridArray[i][j - k + 1].setValue(gridArray[i][j].getValue());
-                        gridArray[i][j].setValue(0);
-                    }
-                }
-                for (int j = 1; j < gridSize; j++) {
-                    if (gridArray[i][j - 1].getValue() == gridArray[i][j].getValue() != 0) {
-                        gridArray[i][j - 1].setValue(gridArray[i - 1][j].getValue() * 2);
-                    }
-                }
-                for (int j = 1; j < gridSize; j++) {
-                    k = 1;
-                    if (gridArray[i][j].getValue() != 0) {
-                        while (gridArray[i][j - k].getValue() == 0) {
-                            k += 1;
-                            if (j - k < 0) {
-                                break;
-                            }
-                        }
-                        gridArray[i][j - k + 1].setValue(gridArray[i][j].getValue());
-                        gridArray[i][j].setValue(0);
-                    }
-                }
-            }
-        }
-    */
+// Choses which movement to execute based on the chosen direction
+int Grid::movement(int dir) {
+    return dir <= 1 ? verticalMovement(dir) : horizontalMovement(dir);
 }
 
+// Generates a new random number in a random available position in the grid
 void Grid::newNumber(std::mt19937& rng) {
 
     std::uniform_int_distribution<int> isFour(0, 9);
@@ -179,6 +75,7 @@ void Grid::newNumber(std::mt19937& rng) {
     }
 }
 
+// Verifies if the grid containes a Cell with 2048 Value
 int Grid::checkWin() {
     for (int i = 0; i < gridSize; i++) {
         for (int j = 0; j < gridSize; j++) {
@@ -190,6 +87,7 @@ int Grid::checkWin() {
     return 0;
 }
 
+// Checks if no movements are possible
 int Grid::checkLose() {
     for (int i = 0; i < gridSize; i++) {
         for (int j = 1; j < gridSize; j++) {
@@ -206,4 +104,78 @@ int Grid::checkLose() {
         }
     }
     return 1;
+}
+
+
+/*
+PRIVATE METHODS
+*/
+
+
+// Vertical movement and merging
+int Grid::verticalMovement(int dir) {
+    int k;
+    int m;
+    int t;
+    int isMove = 0;
+    for (int i = 0; i < gridSize; i++) {
+        for (int j = 1; j < gridSize; j++) {
+            t = dir == 0 ? j : -j + (gridSize - 1);
+            k = dir == 0 ? 1 : -1;
+            m = k;
+            if (gridArray[t][i].getValue() != 0) {
+                while (gridArray[t - k][i].getValue() == 0) {
+                    gridArray[t - k][i].setValue(gridArray[t - k + m][i].getValue());
+                    gridArray[t - k + m][i].setValue(0);
+                    isMove = 1;
+                    k = dir == 0 ? k + 1 : k - 1;
+                    if (t - k < 0 || t - k >= gridSize) {
+                        break;
+                    }
+                }
+                if (t - k >= 0 && t - k < gridSize) {
+                    if (gridArray[t - k][i].getValue() == gridArray[t - k + m][i].getValue()) {
+                        gridArray[t - k][i].setValue((gridArray[t - k][i].getValue()) * 2);
+                        gridArray[t - k + m][i].setValue(0);
+                        isMove = 1;
+                    }
+                }
+            }
+        }
+    }
+    return isMove;
+}
+
+// Horizontal movement and merging
+int Grid::horizontalMovement(int dir) {
+    int k;
+    int m;
+    int t;
+    int isMove = 0;
+    for (int i = 0; i < gridSize; i++) {
+        for (int j = 1; j < gridSize; j++) {
+            t = dir == 2 ? j : -j + (gridSize - 1);
+            k = dir == 2 ? 1 : -1;
+            m = k;
+            if (gridArray[i][t].getValue() != 0) {
+                while (gridArray[i][t - k].getValue() == 0) {
+                    gridArray[i][t - k].setValue(gridArray[i][t - k + m].getValue());
+                    gridArray[i][t - k + m].setValue(0);
+                    isMove = 1;
+                    k = dir == 2 ? k + 1 : k - 1;
+                    if (t - k < 0 || t - k >= gridSize) {
+                        break;
+                    }
+                }
+                if (t - k >= 0 && t - k < gridSize) {
+                    if (gridArray[i][t - k].getValue() == gridArray[i][t - k + m].getValue()) {
+                        gridArray[i][t - k].setValue((gridArray[i][t - k].getValue()) * 2);
+                        gridArray[i][t - k + m].setValue(0);
+                        isMove = 1;
+                    }
+                }
+            }
+        }
+    }
+    return isMove;
 }

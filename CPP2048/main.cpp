@@ -24,6 +24,7 @@ int main() {
     {
         gameGrid.printGrid();
 
+        int move = -1;
         bool badKey = true;
         while (badKey)
         {
@@ -32,16 +33,16 @@ int main() {
             switch ((c = _getch()))
             {
             case KEY_UP:
-                gameGrid.movement(0); // Up
+                move = 0; // Up
                 break;
             case KEY_DOWN:
-                gameGrid.movement(1); // Down
-                break;
-            case KEY_RIGHT:
-                gameGrid.movement(3); // Right
+                move = 1; // Down
                 break;
             case KEY_LEFT:
-                gameGrid.movement(2); // Left
+                move = 2; // Left
+                break;
+            case KEY_RIGHT:
+                move = 3; // Right
                 break;
             default:
                 badKey = true;
@@ -49,7 +50,12 @@ int main() {
             }
         }
 
-        gameGrid.newNumber(rng);
+        system("cls");
+
+        int isMove = gameGrid.movement(move);
+        if (isMove) {
+            gameGrid.newNumber(rng);
+        }
 
         if (gameGrid.checkWin() != 0) {
             std::cout << "You win!" << std::endl;
@@ -59,8 +65,6 @@ int main() {
             std::cout << "You lose!" << std::endl;
             isRunning = 0;
         }
-
-        system("cls");
     }
 
 
