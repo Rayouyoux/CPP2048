@@ -10,6 +10,8 @@
 PUBLIC METHODS
 */
 
+void coloredValues(int value);
+
 // Constructor
 Grid::Grid(int size) : gridSize(size) {
     gridArray = new Cell * [size];
@@ -33,11 +35,55 @@ void Grid::initializeGrid(std::mt19937& rng) {
 }
 
 // Prints a game grid
+void coloredValues(int value) {
+    // Set background color based on the value
+    std::string bgColor;
+    switch (value) {
+    case 2:
+        bgColor = "\x1b[48;5;236m";  // Light gray background
+        break;
+    case 4:
+        bgColor = "\x1b[48;5;235m";  // Slightly darker gray background
+        break;
+    case 8:
+        bgColor = "\x1b[48;5;208m";  // Orange background
+        break;
+    case 16:
+        bgColor = "\x1b[48;5;202m";  // Light red background
+        break;
+    case 32:
+        bgColor = "\x1b[48;5;196m";  // Red background
+        break;
+    case 64:
+        bgColor = "\x1b[48;5;160m";  // Dark red background
+        break;
+    case 128:
+        bgColor = "\x1b[48;5;226m";  // Yellow background
+        break;
+    case 256:
+        bgColor = "\x1b[48;5;220m";  // Light orange background
+        break;
+    case 512:
+        bgColor = "\x1b[48;5;214m";  // Orange background
+        break;
+    case 1024:
+        bgColor = "\x1b[48;5;208m";  // Dark orange background
+        break;
+    case 2048:
+        bgColor = "\x1b[48;5;202m";  // Light red background
+        break;
+    }
+
+    std::string textColor = (value == 2 || value == 4) ? "\x1b[38;5;236m" : "\x1b[38;5;15m";
+
+    std::cout << " | " << bgColor << value << "\t\x1b[0m";
+}
+
 void Grid::printGrid() const {
     for (int i = 0; i < gridSize; i++) {
         for (int j = 0; j < gridSize; j++) {
             int cellValue = gridArray[i][j].getValue();
-            std::cout << " | " << cellValue << "\t";
+            coloredValues(cellValue);
         }
         std::cout << " | " << std::endl;
         std::cout << std::endl;
@@ -94,11 +140,15 @@ int Grid::checkLose() {
             if (gridArray[i][j].getValue() == gridArray[i][j-1].getValue()) {
                 return 0;
             }
+            if (gridArray[j][i].getValue() == gridArray[j - 1][i].getValue()) {
+                return 0;
+            }
+
         }
     }
     for (int i = 0; i < gridSize; i++) {
-        for (int j = 1; j < gridSize; j++) {
-            if (gridArray[j][i].getValue() == gridArray[j - 1][i].getValue()) {
+        for (int j = 0; j < gridSize; j++) { 
+            if (gridArray[i][j].getValue() == 0) {
                 return 0;
             }
         }
