@@ -21,8 +21,6 @@ int main() {
 
     while (isRunning)
     {
-        system("cls");
-
         gameGrid.printGrid();
 
         int move = -1;
@@ -51,24 +49,23 @@ int main() {
             }
         }
 
+        system("cls");
+
         int isMove = gameGrid.movement(move);
         if (isMove) {
             gameGrid.newNumber(rng);
         }
 
         if (gameGrid.checkWin() != 0) {
-            system("cls");
-            gameGrid.printGrid();
             std::cout << "You win!" << std::endl;
             isRunning = 0;
         }
         else if (gameGrid.checkLose() != 0) {
-            system("cls");
-            gameGrid.printGrid();
             std::cout << "You lose!" << std::endl;
             isRunning = 0;
         }
     }
+
 
     return 0;
 }
