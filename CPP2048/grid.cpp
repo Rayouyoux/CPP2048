@@ -1,5 +1,4 @@
 #include "grid.h"
-#include "helpers.h"
 #include <iostream>
 #include <vector>
 #include <random>
