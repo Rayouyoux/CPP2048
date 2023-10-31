@@ -21,13 +21,7 @@
     <ClCompile Include="grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="helpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cell.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,13 +29,7 @@
     <ClInclude Include="grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="helpers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cell.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

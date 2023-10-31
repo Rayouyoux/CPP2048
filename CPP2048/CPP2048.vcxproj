@@ -129,15 +129,11 @@
   <ItemGroup>
     <ClCompile Include="cell.cpp" />
     <ClCompile Include="grid.cpp" />
-    <ClCompile Include="helpers.cpp" />
-    <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cell.h" />
     <ClInclude Include="grid.h" />
-    <ClInclude Include="helpers.h" />
-    <ClInclude Include="input.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

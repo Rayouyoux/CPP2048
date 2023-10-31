@@ -2,7 +2,6 @@
 #include <random>
 #include <Windows.h>
 #include "grid.h"
-#include "input.h"
 #include <conio.h>
 
 #define KEY_UP 72
@@ -55,9 +54,6 @@ int main() {
         int isMove = gameGrid.movement(move);
         if (isMove) {
             gameGrid.newNumber(rng);
-        }
-        else {
-            std::cout << "PAPAPPAPAPAPAPPAPAPAPAPPAPAPPAPAPPAPAPAPAPPAPAPAPAPPAPAPA";
         }
 
         if (gameGrid.checkWin() != 0) {
